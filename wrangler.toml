@@ -3,7 +3,7 @@ compatibility_date = "2026-02-08"
 
 [env.production]
 route = "https://mossel.cloud/*"
-zone_id = ""
+zone_id = "be23090719cb5545214a30cf28c62122"
 
 [[env.production.routes]]
 pattern = "mossel.cloud/contact"
