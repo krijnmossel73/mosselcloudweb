@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mossel Cloud | Cloud Architecture & Splunk Services</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-ocean: #0a1628;
+            --marine-blue: #1a3a5c;
+            --shell-gold: #d4a853;
+            --shell-gold-light: #e8c47a;
+            --seafoam: #4a9b8c;
+            --cloud-white: #f8f9fa;
+            --pearl: #e8e6e1;
+            --text-dark: #1a1a1a;
+            --text-light: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--deep-ocean);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Language Toggle */
+        .lang-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .lang-btn {
+            padding: 8px 18px;
+            border: none;
+            background: transparent;
+            color: var(--text-light);
+            cursor: pointer;
+            border-radius: 26px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .lang-btn.active {
+            background: var(--shell-gold);
+            color: var(--deep-ocean);
+            opacity: 1;
+        }
+
+        .lang-btn:hover:not(.active) {
+            opacity: 1;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 999;
+            background: linear-gradient(to bottom, var(--deep-ocean), transparent);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: var(--text-light);
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .circle-background {
+          width: 70px;
+          height: 70px;
+          background-color: white;
+          border-radius: 50%;
+          display: flex;
+          padding: 5px;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            margin-right: 120px;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            opacity: 0.85;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--shell-gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 6rem 4rem;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(74, 155, 140, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(212, 168, 83, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(26, 58, 92, 0.5) 0%, transparent 70%);
+        }
+
+        .hero-waves {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: rgba(212, 168, 83, 0.15);
+            border: 1px solid rgba(212, 168, 83, 0.3);
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--shell-gold-light);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .hero-badge svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.1s forwards;
+            opacity: 0;
+        }
+
+        .hero h1 span {
+            color: var(--shell-gold);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.85;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            animation: fadeInUp 0.8s ease 0.3s forwards;
+            opacity: 0;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--shell-gold);
+            color: var(--deep-ocean);
+        }
+
+        .btn-primary:hover {
+            background: var(--shell-gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 168, 83, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--shell-gold);
+            color: var(--shell-gold);
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 4rem;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--shell-gold);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            opacity: 0.8;
+            font-size: 1.1rem;
+        }
+
+        /* About Section */
+        .about {
+            background: linear-gradient(180deg, var(--deep-ocean) 0%, var(--marine-blue) 100%);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .about-visual {
+            position: relative;
+        }
+
+        .about-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .about-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1.5rem;
+        }
+
+        .location-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(74, 155, 140, 0.2);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--seafoam);
+            margin-top: 1.5rem;
+        }
+
+        .about-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content p {
+            opacity: 0.85;
+            margin-bottom: 1rem;
+        }
+
+        .founder-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .founder-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--shell-gold), var(--seafoam));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--deep-ocean);
+        }
+
+        .founder-details h4 {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .founder-details span {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Services Section */
+        .services {
+            background: var(--marine-blue);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: rgba(10, 22, 40, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--shell-gold), var(--seafoam));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(212, 168, 83, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(212, 168, 83, 0.1);
+            border-radius: 12px;
+        }
+
+        .service-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: var(--shell-gold);
+        }
+
+        .service-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            opacity: 0.8;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-features {
+            list-style: none;
+        }
+
+        .service-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            opacity: 0.75;
+            margin-bottom: 0.5rem;
+        }
+
+        .service-features li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--seafoam);
+            border-radius: 50%;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: linear-gradient(180deg, var(--marine-blue) 0%, var(--deep-ocean) 100%);
+        }
+
+        .contact-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 1rem 1.25rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            color: var(--text-light);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--shell-gold);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-group select option {
+            background: var(--deep-ocean);
+        }
+
+        .submit-btn {
+            margin-top: 1rem;
+            width: 100%;
+            padding: 1.2rem;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2.5rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            opacity: 0.8;
+        }
+
+        .contact-item svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--shell-gold);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--deep-ocean);
+            padding: 3rem 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .footer-logo svg {
+            width: 35px;
+            height: 35px;
+        }
+
+        .footer-logo span {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .footer-text {
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            nav {
+                padding: 1rem 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            section {
+                padding: 4rem 2rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 1.5rem;
+                align-items: center;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .lang-toggle {
+                top: 1rem;
+                right: 1rem;
+            }
+        }
+
+        /* Language visibility */
+        [data-lang="nl"] { display: none; }
+        html[lang="nl"] [data-lang="nl"] { display: block; }
+        html[lang="nl"] [data-lang="en"] { display: none; }
+        html[lang="en"] [data-lang="nl"] { display: none; }
+        html[lang="en"] [data-lang="en"] { display: block; }
+    </style>
+</head>
+<body>
+    <!-- Language Toggle -->
+    <div class="lang-toggle">
+        <button class="lang-btn active" data-language="en">EN</button>
+        <button class="lang-btn" data-language="nl">NL</button>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="#hero" class="logo">
+            <img width="70" height="70" src="mossel-cloud-logo.png"/>
+            <span class="logo-text">Mossel Cloud</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#about" data-lang="en">About</a><a href="#about" data-lang="nl">Over Ons</a></li>
+            <li><a href="#services" data-lang="en">Services</a><a href="#services" data-lang="nl">Diensten</a></li>
+            <li><a href="#contact" data-lang="en">Contact</a><a href="#contact" data-lang="nl">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg"></div>
+        <svg class="hero-waves" viewBox="0 0 1440 200" preserveAspectRatio="none">
+            <path fill="rgba(74, 155, 140, 0.1)" d="M0,100 C360,150 720,50 1080,100 C1260,125 1380,110 1440,100 L1440,200 L0,200 Z"/>
+            <path fill="rgba(212, 168, 83, 0.05)" d="M0,120 C480,80 960,160 1440,120 L1440,200 L0,200 Z"/>
+        </svg>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+                <span data-lang="en">Cloud Solutions from The Netherlands</span>
+                <span data-lang="nl">Cloud Oplossingen uit Nederland</span>
+            </div>
+            <h1>
+                <span data-lang="en">Elevate Your <span>Cloud</span> Infrastructure</span>
+                <span data-lang="nl">Versterk Uw <span>Cloud</span> Infrastructuur</span>
+            </h1>
+            <p data-lang="en">Expert cloud architecture, Splunk services, and intelligent chatbot solutions. We bring Dutch precision to your digital transformation.</p>
+            <p data-lang="nl">Expert cloud architectuur, Splunk diensten en intelligente chatbot oplossingen. Wij brengen Nederlandse precisie naar uw digitale transformatie.</p>
+            <div class="hero-cta">
+                <a href="#contact" class="btn btn-primary" data-lang="en">Get Started</a>
+                <a href="#contact" class="btn btn-primary" data-lang="nl">Aan de Slag</a>
+                <a href="#services" class="btn btn-secondary" data-lang="en">Our Services</a>
+                <a href="#services" class="btn btn-secondary" data-lang="nl">Onze Diensten</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-grid">
+            <div class="about-visual">
+                <div class="about-card">
+                    <img class="circle-background" src="nl.png"/>
+                    <h4 data-lang="en">Based in The Netherlands</h4>
+                    <h4 data-lang="nl">Gevestigd in Nederland</h4>
+                    <p data-lang="en">Serving clients across Europe and beyond with reliable, secure cloud solutions.</p>
+                    <p data-lang="nl">Wij bedienen klanten in heel Europa en daarbuiten met betrouwbare, veilige cloud oplossingen.</p>
+                    <div class="location-badge">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        <span>The Netherlands / Nederland</span>
+                    </div>
+                </div>
+            </div>
+            <div class="about-content">
+                <span class="section-label" data-lang="en">About Us</span>
+                <span class="section-label" data-lang="nl">Over Ons</span>
+                <h3 data-lang="en">Cloud Expertise with Dutch Reliability</h3>
+                <h3 data-lang="nl">Cloud Expertise met Nederlandse Betrouwbaarheid</h3>
+                <p data-lang="en">Mossel Cloud is a specialized cloud consultancy dedicated to helping businesses harness the full potential of modern cloud technologies. We combine deep technical expertise with a pragmatic, results-driven approach.</p>
+                <p data-lang="nl">Mossel Cloud is een gespecialiseerd cloud consultancybedrijf dat zich richt op het helpen van bedrijven om het volledige potentieel van moderne cloudtechnologieën te benutten. Wij combineren diepgaande technische expertise met een pragmatische, resultaatgerichte aanpak.</p>
+                <p data-lang="en">From architecting scalable cloud solutions to implementing powerful Splunk observability platforms and deploying intelligent chatbots, we provide end-to-end services that drive real business value.</p>
+                <p data-lang="nl">Van het ontwerpen van schaalbare cloud oplossingen tot het implementeren van krachtige Splunk observability platforms en het uitrollen van intelligente chatbots, wij bieden end-to-end diensten die echte bedrijfswaarde leveren.</p>
+                <div class="founder-info">
+                    <div class="founder-avatar">
+                        <img width="70" height="70" src="krijn.png"/>
+                    </div>
+                    <div class="founder-details">
+                        <h4>Krijn Mossel</h4>
+                        <span data-lang="en">Founder & Owner</span>
+                        <span data-lang="nl">Oprichter & Eigenaar</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="section-header">
+            <span class="section-label" data-lang="en">What We Do</span>
+            <span class="section-label" data-lang="nl">Wat Wij Doen</span>
+            <h2 class="section-title" data-lang="en">Our Services</h2>
+            <h2 class="section-title" data-lang="nl">Onze Diensten</h2>
+            <p class="section-subtitle" data-lang="en">Comprehensive cloud solutions tailored to your business needs</p>
+            <p class="section-subtitle" data-lang="nl">Uitgebreide cloud oplossingen op maat van uw zakelijke behoeften</p>
+        </div>
+        <div class="services-grid">
+            <!-- Cloud Architecture -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+                    </svg>
+                </div>
+                <h3 data-lang="en">Cloud Architecture</h3>
+                <h3 data-lang="nl">Cloud Architectuur</h3>
+                <p data-lang="en">Design and implement scalable, secure, and cost-effective cloud infrastructures that grow with your business.</p>
+                <p data-lang="nl">Ontwerp en implementeer schaalbare, veilige en kosteneffectieve cloud infrastructuren die meegroeien met uw bedrijf.</p>
+                <ul class="service-features">
+                    <li data-lang="en">Multi-cloud strategy</li>
+                    <li data-lang="nl">Multi-cloud strategie</li>
+                    <li data-lang="en">Infrastructure as Code</li>
+                    <li data-lang="nl">Infrastructure as Code</li>
+                    <li data-lang="en">Security & Compliance</li>
+                    <li data-lang="nl">Beveiliging & Compliance</li>
+                    <li data-lang="en">Cost optimization</li>
+                    <li data-lang="nl">Kostenoptimalisatie</li>
+                </ul>
+            </div>
+
+            <!-- Splunk Services -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 3v18h18"/>
+                        <path d="M18 17V9"/>
+                        <path d="M13 17V5"/>
+                        <path d="M8 17v-3"/>
+                    </svg>
+                </div>
+                <h3>Splunk Services</h3>
+                <p data-lang="en">Unlock the power of your data with expert Splunk implementation and optimization services.</p>
+                <p data-lang="nl">Ontgrendel de kracht van uw data met deskundige Splunk implementatie en optimalisatiediensten.</p>
+                <ul class="service-features">
+                    <li data-lang="en">Cloud Migration</li>
+                    <li data-lang="nl">Cloud Migratie</li>
+                    <li data-lang="en">Dashboard Building</li>
+                    <li data-lang="nl">Dashboard Ontwikkeling</li>
+                    <li data-lang="en">Deployment & Configuration</li>
+                    <li data-lang="nl">Deployment & Configuratie</li>
+                    <li data-lang="en">Performance Tuning</li>
+                    <li data-lang="nl">Prestatieoptimalisatie</li>
+                </ul>
+            </div>
+
+            <!-- Chatbot Services -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        <circle cx="9" cy="10" r="1" fill="currentColor"/>
+                        <circle cx="12" cy="10" r="1" fill="currentColor"/>
+                        <circle cx="15" cy="10" r="1" fill="currentColor"/>
+                    </svg>
+                </div>
+                <h3 data-lang="en">Chatbot Deployment</h3>
+                <h3 data-lang="nl">Chatbot Uitrol</h3>
+                <p data-lang="en">Deploy and integrate intelligent conversational AI solutions that enhance customer experience and streamline operations.</p>
+                <p data-lang="nl">Rol intelligente conversationele AI-oplossingen uit en integreer deze om de klantervaring te verbeteren en operaties te stroomlijnen.</p>
+                <ul class="service-features">
+                    <li data-lang="en">Custom AI Chatbots</li>
+                    <li data-lang="nl">Op Maat Gemaakte AI Chatbots</li>
+                    <li data-lang="en">Platform Integration</li>
+                    <li data-lang="nl">Platform Integratie</li>
+                    <li data-lang="en">NLP & LLM Solutions</li>
+                    <li data-lang="nl">NLP & LLM Oplossingen</li>
+                    <li data-lang="en">Ongoing Support</li>
+                    <li data-lang="nl">Doorlopende Ondersteuning</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="section-header">
+            <span class="section-label" data-lang="en">Get In Touch</span>
+            <span class="section-label" data-lang="nl">Neem Contact Op</span>
+            <h2 class="section-title" data-lang="en">Let's Work Together</h2>
+            <h2 class="section-title" data-lang="nl">Laten We Samenwerken</h2>
+            <p class="section-subtitle" data-lang="en">Ready to transform your cloud infrastructure? We'd love to hear from you.</p>
+            <p class="section-subtitle" data-lang="nl">Klaar om uw cloud infrastructuur te transformeren? Wij horen graag van u.</p>
+        </div>
+        <div class="contact-wrapper">
+            <div class="contact-card">
+                <form class="contact-form" action="/contact" method="POST">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name" data-lang="en">Name</label>
+                            <label for="name" data-lang="nl">Naam</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="company" data-lang="en">Company</label>
+                            <label for="company" data-lang="nl">Bedrijf</label>
+                            <input type="text" id="company" name="company">
+                        </div>
+                        <div class="form-group">
+                            <label for="service" data-lang="en">Service Interest</label>
+                            <label for="service" data-lang="nl">Dienst Interesse</label>
+                            <select id="service" name="service">
+                                <option value="" data-lang="en">Select a service</option>
+                                <option value="" data-lang="nl">Selecteer een dienst</option>
+                                <option value="cloud-architecture" data-lang="en">Cloud Architecture</option>
+                                <option value="cloud-architecture" data-lang="nl">Cloud Architectuur</option>
+                                <option value="splunk" data-lang="en">Splunk Services</option>
+                                <option value="splunk" data-lang="nl">Splunk Diensten</option>
+                                <option value="chatbot" data-lang="en">Chatbot Deployment</option>
+                                <option value="chatbot" data-lang="nl">Chatbot Uitrol</option>
+                                <option value="other" data-lang="en">Other</option>
+                                <option value="other" data-lang="nl">Anders</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message" data-lang="en">Message</label>
+                        <label for="message" data-lang="nl">Bericht</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary submit-btn" data-lang="en">Send Message</button>
+                    <button type="submit" class="btn btn-primary submit-btn" data-lang="nl">Verstuur Bericht</button>
+                </form>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        <span>The Netherlands</span>
+                    </div>
+                    <div class="contact-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        <span class="nav-links" style="margin-right: 0;"><a href="mailto:krijn@mossel.cloud">krijn@mossel.cloud</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img width="30" height="30" src="mossel-cloud-logo.png"/>
+                <span>Mossel Cloud</span>
+            </div>
+            <p class="footer-text">© 2025 Mossel Cloud. <span data-lang="en">All rights reserved.</span><span data-lang="nl">Alle rechten voorbehouden.</span></p>
+        </div>
+    </footer>
+
+    <script>
+        // Language Toggle
+        const langBtns = document.querySelectorAll('.lang-btn');
+        const html = document.documentElement;
+
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.dataset.language;
+                html.lang = lang;
+                
+                langBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Update page title
+                if (lang === 'nl') {
+                    document.title = 'Mossel Cloud | Cloud Architectuur & Splunk Diensten';
+                } else {
+                    document.title = 'Mossel Cloud | Cloud Architecture & Splunk Services';
+                }
+            });
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission handling
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const lang = html.lang;
+            const message = lang === 'nl' 
+                ? 'Bedankt voor uw bericht! We nemen zo snel mogelijk contact met u op.'
+                : 'Thank you for your message! We will get back to you soon.';
+            alert(message);
+            this.reset();
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.service-card, .about-card, .contact-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
