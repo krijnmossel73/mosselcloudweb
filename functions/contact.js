@@ -12,11 +12,14 @@ export async function onRequestPost(context) {
 
     // Basic validation
     if (!name || !email || !message) {
+      console.error('Missing required fields');
       return new Response(
         JSON.stringify({ success: false, error: 'Missing required fields' }), 
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
+
+    console.error('Point A');
 
     const response = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
@@ -39,9 +42,13 @@ export async function onRequestPost(context) {
       })
     });
 
+    console.error('Point B');
+
     if (!response.ok) {
       throw new Error(`Brevo API error: ${response.status}`);
     }
+
+    console.error('Point C');
 
     return new Response(JSON.stringify({ success: true }), {
       headers: { 'Content-Type': 'application/json' }
