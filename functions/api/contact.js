@@ -10,6 +10,8 @@ export async function onRequestPost(context) {
     const service = formData.get('service');
     const message = formData.get('message');
 
+    var debug = "";
+
     // Basic validation
     if (!name || !email || !message) {
       console.error('Missing required fields');
@@ -19,7 +21,7 @@ export async function onRequestPost(context) {
       );
     }
 
-    console.error('Point A');
+    debug += ('Point A');
 
     const response = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
@@ -42,13 +44,13 @@ export async function onRequestPost(context) {
       })
     });
 
-    console.error('Point B');
+    debug += ('Point B');
 
     if (!response.ok) {
       throw new Error(`Brevo API error: ${response.status}`);
     }
 
-    console.error('Point C');
+    debug += ('Point C');
 
     return new Response(JSON.stringify({ success: true }), {
       headers: { 'Content-Type': 'application/json' }
@@ -57,7 +59,7 @@ export async function onRequestPost(context) {
   } catch (error) {
     console.error('Form submission error:', error);
     return new Response(
-      JSON.stringify({ success: false, error: 'Failed to send email' }), 
+      JSON.stringify({ success: false, error: 'Failed to send email - '+debug }), 
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
