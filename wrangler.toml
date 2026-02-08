@@ -13,5 +13,5 @@ methods = ["POST"]
 directory = "./"
 
 [build]
-command = "npm install"
+command = "npx wrangler build"
 cwd = "./"
