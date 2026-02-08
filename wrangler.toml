@@ -1,0 +1,5 @@
+name = "mossel-cloud-website"
+compatibility_date = "2026-02-08"
+
+[assets]
+directory = "./"
