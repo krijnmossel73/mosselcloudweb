@@ -59,7 +59,7 @@ export async function onRequestPost(context) {
   } catch (error) {
     console.error('Form submission error:', error);
     return new Response(
-      JSON.stringify({ success: false, error: 'Failed to send email - '+debug }), 
+      JSON.stringify({ success: false, error: 'Failed to send email - ' + error + debug }), 
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
