@@ -32,8 +32,8 @@ export async function onRequestPost(context) {
       },
       body: JSON.stringify({
         "sender": {
-          "name": "Mossel Cloud Website",
-          "email": "noreply@mossel.cloud"
+          "name": "Mossel Cloud",
+          "email": "krijn@mossel.cloud"
         },
         "to": [{
           "email": "krijn@mossel.cloud",
