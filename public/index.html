@@ -308,6 +308,32 @@
   .form-success-icon svg { width: 28px; height: 28px; stroke: white; fill: none; }
   .form-success h3 { color: white; font-size: 1.2rem; margin-bottom: 0.5rem; }
   .form-success p { color: rgba(255,255,255,0.6); font-size: 0.9rem; }
+  /* DEMO SECTION */
+  .demo-section {
+    background: var(--accent-light);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 3.5rem 2rem;
+  }
+  .demo-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+  }
+  .demo-bubble {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    background: var(--accent); color: white;
+    padding: 0.9rem 1.75rem; border-radius: 50px;
+    font-weight: 600; font-size: 0.95rem; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 16px rgba(26,107,78,0.3);
+    white-space: nowrap;
+  }
+  .demo-bubble:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,107,78,0.35); }
+  .demo-bubble svg { width: 22px; height: 22px; flex-shrink: 0; }
+  @media (max-width: 700px) {
+    .demo-inner { flex-direction: column; align-items: flex-start; }
+  }
+
   footer {
     border-top: 1px solid var(--line); padding: 2rem;
     text-align: center; font-size: 0.82rem; color: var(--mid);
@@ -569,6 +595,33 @@
   </div>
 </section>
 
+<!-- DEMO CALLOUT -->
+<section class="demo-section">
+  <div class="demo-inner">
+    <div class="demo-text">
+      <div class="hero-label" style="margin-bottom:1rem;"
+        data-en="Live demo"
+        data-nl="Live demo">Live demo</div>
+      <h2 style="font-size:1.8rem; font-weight:700; letter-spacing:-0.5px; margin-bottom:0.75rem;"
+        data-en="See AI chatbot development in action."
+        data-nl="Zie AI chatbot ontwikkeling in actie.">See AI chatbot development in action.</h2>
+      <p style="font-size:0.95rem; color:var(--mid); line-height:1.75; max-width:480px;"
+        data-en="This is a live Botpress chatbot — built and configured by Mossel Cloud. Click the chat bubble in the bottom-right corner to try it."
+        data-nl="Dit is een live Botpress chatbot — gebouwd en geconfigureerd door Mossel Cloud. Klik op de chatknop rechtsonder om het uit te proberen.">
+        This is a live Botpress chatbot — built and configured by Mossel Cloud. Click the chat bubble in the bottom-right corner to try it.
+      </p>
+    </div>
+    <div class="demo-cta">
+      <div class="demo-bubble" onclick="window.botpressWebChat && window.botpressWebChat.open ? window.botpressWebChat.open() : null" title="Open chat">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
+        </svg>
+        <span data-en="Chat with us" data-nl="Chat met ons">Chat with us</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <span data-en="&copy; 2026 Mossel Cloud — Purmerend, The Netherlands" data-nl="&copy; 2026 Mossel Cloud — Purmerend, Nederland">&copy; 2026 Mossel Cloud — Purmerend, The Netherlands</span>
   &middot; KvK 88107434 &middot; BTW NL004543077B14
@@ -673,6 +726,10 @@ function gtag_report_conversion(url) {
     });
   }
 </script>
+
+<!-- ═══ Botpress Webchat ═══ -->
+<script src="https://cdn.botpress.cloud/webchat/v3.6/inject.js"></script>
+<script src="https://files.bpcontent.cloud/2026/01/18/22/20260118222850-UHYFIS22.js" defer></script>
 
 </body>
 </html>
