@@ -120,6 +120,16 @@
     font-weight: 500; margin-left: 2rem; transition: color 0.2s;
   }
   nav a:hover { color: var(--ink); }
+  .nav-book {
+    margin-left: 1.5rem !important;
+    background: var(--accent) !important;
+    color: white !important;
+    padding: 0.45rem 1rem !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    transition: background 0.2s, transform 0.2s !important;
+  }
+  .nav-book:hover { background: #155a40 !important; color: white !important; transform: translateY(-1px) !important; }
   .lang-toggle {
     margin-left: 2rem; display: flex;
     background: var(--card); border: 1px solid var(--line);
@@ -334,6 +344,16 @@
     .demo-inner { flex-direction: column; align-items: flex-start; }
   }
 
+  .cal-btn {
+    display: inline-flex; align-items: center;
+    background: var(--accent); color: white;
+    padding: 0.85rem 1.5rem; border-radius: 8px;
+    text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    margin-bottom: 2rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(26,107,78,0.3);
+  }
+  .cal-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,107,78,0.4); color: white; }
   footer {
     border-top: 1px solid var(--line); padding: 2rem;
     text-align: center; font-size: 0.82rem; color: var(--mid);
@@ -370,6 +390,9 @@
       <a href="#services" data-en="Services" data-nl="Diensten">Services</a>
       <a href="#approach" data-en="Approach" data-nl="Aanpak">Approach</a>
       <a href="#contact" data-en="Contact" data-nl="Contact">Contact</a>
+      <a target="_blank" class="nav-book"
+         href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ15LIMZ5r_e5n3MCUXunuySrt1XLPSG1iZVQNvDvQ47q8DL5yKJ51HFbLQ2qOCj1X1TTmR9H7Gh"
+         data-en="Book a call" data-nl="Plan een gesprek">Book a call</a>
       <div class="lang-toggle">
         <button class="lang-btn active" data-lang="en">EN</button>
         <button class="lang-btn" data-lang="nl">NL</button>
@@ -529,6 +552,11 @@
          data-nl="Gratis 30 minuten kennismakingsgesprek — geen verkooppraatje, gewoon eerlijk advies over uw situatie.">
         Free 30-minute discovery call — no pitch, just honest advice about your situation.
       </p>
+      <a target="_blank"
+         href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ15LIMZ5r_e5n3MCUXunuySrt1XLPSG1iZVQNvDvQ47q8DL5yKJ51HFbLQ2qOCj1X1TTmR9H7Gh"
+         class="cal-btn"
+         data-en="📅 Pick a time — free 30 min call"
+         data-nl="📅 Kies een tijd — gratis 30 min gesprek">📅 Pick a time — free 30 min call</a>
       <div class="contact-detail">
         <div class="contact-detail-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
