@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thank you — Mossel Cloud</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="256x256" href="/favicon-256.png">
+  <style>
+    :root {
+      --ink: #0a0f1a;
+      --paper: #f5f3ef;
+      --accent: #1a6b4e;
+      --accent-light: #e8f4ee;
+      --warm: #d4650b;
+      --mid: #5a6472;
+      --line: #d0cdc6;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(245,243,239,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700; font-size: 1.1rem;
+      color: var(--accent); letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+    .logo span { color: var(--warm); }
+
+    main {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      padding: 4rem 2rem;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 3.5rem;
+      max-width: 560px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 32px rgba(10,15,26,0.06);
+    }
+
+    .icon {
+      width: 64px; height: 64px;
+      background: var(--accent-light);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.75rem;
+    }
+    .icon svg { width: 30px; height: 30px; stroke: var(--accent); fill: none; }
+
+    .eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-size: 1.9rem; font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 0.95rem; color: var(--mid);
+      line-height: 1.75; margin-bottom: 2rem;
+    }
+
+    .divider {
+      border: none; border-top: 1px solid var(--line);
+      margin: 2rem 0;
+    }
+
+    .cal-prompt {
+      font-size: 0.9rem; color: var(--mid);
+      margin-bottom: 1.25rem;
+    }
+
+    .cal-btn {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--accent); color: white;
+      padding: 0.85rem 1.5rem; border-radius: 8px;
+      text-decoration: none; font-weight: 600; font-size: 0.95rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(26,107,78,0.3);
+      margin-bottom: 1.5rem;
+    }
+    .cal-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,107,78,0.4); }
+    .cal-btn svg { width: 18px; height: 18px; stroke: white; fill: none; flex-shrink: 0; }
+
+    .back-link {
+      display: inline-block;
+      font-size: 0.85rem; color: var(--mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    footer {
+      border-top: 1px solid var(--line); padding: 1.5rem;
+      text-align: center; font-size: 0.82rem; color: var(--mid);
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">mossel<span>.cloud</span></a>
+</nav>
+
+<main>
+  <div class="card">
+    <div class="icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      </svg>
+    </div>
+
+    <div class="eyebrow">Message received</div>
+    <h1>Thank you — I'll be in touch shortly.</h1>
+    <p>I typically respond within one business day. In the meantime, feel free to book a time directly in my calendar if you'd rather skip the back-and-forth.</p>
+
+    <hr class="divider">
+
+    <p class="cal-prompt">Skip the wait — pick a time that works for you:</p>
+    <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ15LIMZ5r_e5n3MCUXunuySrt1XLPSG1iZVQNvDvQ47q8DL5yKJ51HFbLQ2qOCj1X1TTmR9H7Gh"
+       target="_blank" class="cal-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.8">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+      </svg>
+      Book a free 30-min discovery call
+    </a>
+
+    <br>
+    <a href="/" class="back-link">← Back to mossel.cloud</a>
+  </div>
+</main>
+
+<footer>
+  © 2026 Mossel Cloud · Purmerend, The Netherlands · KvK 88107434
+</footer>
+
+</body>
+</html>
