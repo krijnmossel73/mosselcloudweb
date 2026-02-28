@@ -738,8 +738,7 @@ function gtag_report_conversion(url) {
     .then(function(response) { return response.json(); })
     .then(function(data) {
       if (data.success) {
-        document.getElementById('contactFormWrap').style.display = 'none';
-        document.getElementById('formSuccess').classList.add('show');
+        window.location.href = '/thank-you';
       } else {
         throw new Error(data.error || 'Unknown error');
       }
